@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# generated data
+data-generator/output/
+
+# Node / React
+node_modules/
+dist/
+build/
+
+# Go
+bidder-go/bin/
+
+# Kotlin / Gradle
+.gradle/
+event-logger-kotlin/build/
+
+# Rails
+backoffice-rails/log/
+backoffice-rails/tmp/
+*.sqlite3
+
+# editor/OS
+.DS_Store
+.idea/
+.vscode/
