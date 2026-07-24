@@ -1,10 +1,20 @@
 import os
 
 import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data-generator", "output")
-FEATURE_COLUMNS = ["interest_segment", "device_type", "age_bracket", "category", "bid_amount", "segment_match"]
+CATEGORICAL_COLUMNS = ["interest_segment", "device_type", "age_bracket", "category"]
+NUMERIC_COLUMNS = ["bid_amount", "segment_match"]
+FEATURE_COLUMNS = CATEGORICAL_COLUMNS + NUMERIC_COLUMNS
 LABEL_COLUMN = "clicked"
+TEST_SIZE = 0.2
+RANDOM_STATE = 42
 
 
 def load_data():
@@ -25,13 +35,33 @@ def build_features(events, users, campaigns):
     return X, y
 
 
+def build_model():
+    preprocessor = ColumnTransformer([
+        ("onehot", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL_COLUMNS),
+    ], remainder="passthrough")
+
+    return Pipeline([
+        ("preprocess", preprocessor),
+        ("classifier", LogisticRegression(max_iter=1000)),
+    ])
+
+
 def main():
     events, users, campaigns = load_data()
     X, y = build_features(events, users, campaigns)
 
-    print(f"training rows: {len(X)}")
-    print(f"overall CTR: {y.mean():.4f}")
-    print(X.head())
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=y
+    )
+
+    model = build_model()
+    model.fit(X_train, y_train)
+
+    predicted_probs = model.predict_proba(X_test)[:, 1]
+    auc = roc_auc_score(y_test, predicted_probs)
+
+    print(f"training rows: {len(X_train)}, test rows: {len(X_test)}")
+    print(f"test AUC: {auc:.4f}")
 
 
 if __name__ == "__main__":
