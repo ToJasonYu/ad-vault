@@ -6,6 +6,7 @@ venv/
 
 # generated data
 data-generator/output/
+ml-service/model.joblib
 
 # Node / React
 node_modules/

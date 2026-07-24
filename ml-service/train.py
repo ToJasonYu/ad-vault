@@ -1,5 +1,6 @@
 import os
 
+import joblib
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LogisticRegression
@@ -15,6 +16,7 @@ FEATURE_COLUMNS = CATEGORICAL_COLUMNS + NUMERIC_COLUMNS
 LABEL_COLUMN = "clicked"
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.joblib")
 
 
 def load_data():
@@ -62,6 +64,12 @@ def main():
 
     print(f"training rows: {len(X_train)}, test rows: {len(X_test)}")
     print(f"test AUC: {auc:.4f}")
+
+    # AUC is measured on the held-out split; refit on everything before shipping the model
+    final_model = build_model()
+    final_model.fit(X, y)
+    joblib.dump(final_model, MODEL_PATH)
+    print(f"saved model to {MODEL_PATH}")
 
 
 if __name__ == "__main__":
