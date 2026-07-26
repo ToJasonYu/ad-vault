@@ -7,4 +7,6 @@ Rails.application.routes.draw do
 
   post "signup", to: "advertisers#create"
   post "login", to: "sessions#create"
+
+  resources :campaigns, only: [:index, :show, :create, :update]
 end

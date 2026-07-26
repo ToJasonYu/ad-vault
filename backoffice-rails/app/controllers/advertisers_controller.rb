@@ -1,4 +1,6 @@
 class AdvertisersController < ApplicationController
+  skip_before_action :authenticate_advertiser!, only: [:create]
+
   def create
     advertiser = Advertiser.new(advertiser_params)
 
