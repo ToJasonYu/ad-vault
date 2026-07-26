@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_26_081921) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_26_082118) do
   create_table "advertisers", force: :cascade do |t|
     t.string "api_token", null: false
     t.datetime "created_at", null: false
@@ -34,5 +34,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_26_081921) do
     t.index ["advertiser_id"], name: "index_campaigns_on_advertiser_id"
   end
 
+  create_table "events", force: :cascade do |t|
+    t.integer "campaign_id", null: false
+    t.datetime "created_at", null: false
+    t.string "event_type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_events_on_campaign_id"
+  end
+
   add_foreign_key "campaigns", "advertisers"
+  add_foreign_key "events", "campaigns"
 end
