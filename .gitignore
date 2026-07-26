@@ -19,6 +19,7 @@ bidder-go/bin/
 # Kotlin / Gradle
 .gradle/
 event-logger-kotlin/build/
+event-logger-kotlin/*.jar
 
 # Rails
 backoffice-rails/log/
