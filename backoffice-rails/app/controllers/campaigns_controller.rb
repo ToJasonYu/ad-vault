@@ -47,6 +47,9 @@ class CampaignsController < ApplicationController
       budget: campaign.budget,
       bid_amount: campaign.bid_amount,
       budget_remaining: campaign.budget_remaining,
+      impressions: campaign.events.where(event_type: "impression").count,
+      clicks: campaign.events.where(event_type: "click").count,
+      spend: campaign.budget.to_f - campaign.budget_remaining.to_f,
     }
   end
 end
