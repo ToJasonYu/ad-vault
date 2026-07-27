@@ -1,0 +1,5 @@
+log/
+tmp/
+storage/
+db/*.sqlite3
+.git/
