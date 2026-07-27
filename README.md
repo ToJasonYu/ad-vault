@@ -76,5 +76,11 @@ back office, a client-side event logger, and Kubernetes orchestration tying it t
 
 ## Status
 
-Under active development. See commit history for progress; each service directory will get
-its own README with setup/run instructions as it's built out.
+All six services are built and each has been verified working: the ML model trains and
+scores real signal (AUC ~0.73), the bidder correctly weighs click probability against bid
+amount, the Rails API drives real signup/campaign/budget flows, the Kotlin logger feeds real
+events into it, the React dashboard reads it all back out, and all four containerized
+services have been deployed to a real local Kubernetes cluster with verified cross-service
+DNS discovery, scaling, and restart behavior.
+
+Each service directory has its own README with setup/run instructions.
