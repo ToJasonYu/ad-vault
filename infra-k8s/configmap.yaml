@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ad-vault-config
+  namespace: ad-vault
+data:
+  # cluster-internal DNS name for the ml-service Service, defined below
+  ML_SERVICE_URL: "http://ml-service:8000"
