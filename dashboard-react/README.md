@@ -1,16 +1,24 @@
-# React + Vite
+# dashboard-react
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Advertiser-facing dashboard: sign up or log in, create campaigns, and see impressions,
+clicks, and spend per campaign. Talks to `backoffice-rails`'s JSON API with plain `fetch` —
+no state-management library, the app is small enough not to need one.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Requires `backoffice-rails` running (see `backoffice-rails/README.md`).
 
-## React Compiler
+```
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Opens on `http://localhost:5173`. Override the API's location with a `VITE_API_BASE_URL` env
+var (defaults to `http://127.0.0.1:3000`).
 
-## Expanding the Oxlint configuration
+## Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- `src/api.js` — the only place that talks to the Rails API; every request attaches the
+  advertiser's Bearer token (stored in `localStorage` after login/signup)
+- `src/components/AuthForm.jsx` — combined login/signup form
+- `src/components/CampaignList.jsx`, `CampaignForm.jsx` — campaign table and creation form
