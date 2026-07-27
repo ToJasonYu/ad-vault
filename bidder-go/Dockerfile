@@ -1,0 +1,14 @@
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+
+COPY go.mod ./
+RUN go mod download
+
+COPY . .
+RUN CGO_ENABLED=0 go build -o bidder .
+
+FROM alpine:3.20
+COPY --from=builder /app/bidder /bidder
+
+EXPOSE 8080
+ENTRYPOINT ["/bidder"]
