@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bidder-go
+  namespace: ad-vault
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bidder-go
+  template:
+    metadata:
+      labels:
+        app: bidder-go
+    spec:
+      containers:
+        - name: bidder-go
+          image: ad-vault/bidder-go:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: ad-vault-config
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bidder-go
+  namespace: ad-vault
+spec:
+  selector:
+    app: bidder-go
+  ports:
+    - port: 8080
+      targetPort: 8080
