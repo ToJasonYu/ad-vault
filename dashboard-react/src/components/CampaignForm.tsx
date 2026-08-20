@@ -1,15 +1,20 @@
 import { useState } from "react"
+import type { NewCampaign } from "../api"
 
 const CATEGORIES = ["sports", "tech", "travel", "finance", "gaming"]
 
-export default function CampaignForm({ onCreate }) {
+interface CampaignFormProps {
+  onCreate: (campaign: NewCampaign) => Promise<void>
+}
+
+export default function CampaignForm({ onCreate }: CampaignFormProps) {
   const [name, setName] = useState("")
   const [category, setCategory] = useState(CATEGORIES[0])
   const [budget, setBudget] = useState("")
   const [bidAmount, setBidAmount] = useState("")
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError(null)
 
@@ -19,7 +24,7 @@ export default function CampaignForm({ onCreate }) {
       setBudget("")
       setBidAmount("")
     } catch (err) {
-      setError(err.message)
+      setError(err instanceof Error ? err.message : String(err))
     }
   }
 
