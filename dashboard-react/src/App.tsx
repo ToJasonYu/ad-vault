@@ -3,16 +3,17 @@ import AuthForm from "./components/AuthForm"
 import CampaignForm from "./components/CampaignForm"
 import CampaignList from "./components/CampaignList"
 import { createCampaign, listCampaigns } from "./api"
+import type { Advertiser, Campaign, NewCampaign } from "./api"
 import "./App.css"
 
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem("token"))
-  const [advertiser, setAdvertiser] = useState(() => {
+  const [advertiser, setAdvertiser] = useState<Advertiser | null>(() => {
     const stored = localStorage.getItem("advertiser")
     return stored ? JSON.parse(stored) : null
   })
-  const [campaigns, setCampaigns] = useState([])
-  const [error, setError] = useState(null)
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!token) return
@@ -22,7 +23,7 @@ function App() {
       .catch((err) => setError(err.message))
   }, [token])
 
-  function handleAuthenticated(newAdvertiser, newToken) {
+  function handleAuthenticated(newAdvertiser: Advertiser, newToken: string) {
     localStorage.setItem("token", newToken)
     localStorage.setItem("advertiser", JSON.stringify(newAdvertiser))
     setToken(newToken)
@@ -37,8 +38,8 @@ function App() {
     setCampaigns([])
   }
 
-  async function handleCreateCampaign(campaign) {
-    const created = await createCampaign(token, campaign)
+  async function handleCreateCampaign(campaign: NewCampaign) {
+    const created = await createCampaign(token!, campaign)
     setCampaigns((prev) => [...prev, created])
   }
 
