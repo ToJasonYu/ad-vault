@@ -1,14 +1,19 @@
 import { useState } from "react"
 import { login, signup } from "../api"
+import type { Advertiser } from "../api"
 
-export default function AuthForm({ onAuthenticated }) {
-  const [mode, setMode] = useState("login")
+interface AuthFormProps {
+  onAuthenticated: (advertiser: Advertiser, token: string) => void
+}
+
+export default function AuthForm({ onAuthenticated }: AuthFormProps) {
+  const [mode, setMode] = useState<"login" | "signup">("login")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError(null)
 
@@ -16,7 +21,7 @@ export default function AuthForm({ onAuthenticated }) {
       const result = mode === "login" ? await login(email, password) : await signup(name, email, password)
       onAuthenticated(result.advertiser, result.token)
     } catch (err) {
-      setError(err.message)
+      setError(err instanceof Error ? err.message : String(err))
     }
   }
 
