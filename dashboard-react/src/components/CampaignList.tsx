@@ -1,4 +1,10 @@
-export default function CampaignList({ campaigns }) {
+import type { Campaign } from "../api"
+
+interface CampaignListProps {
+  campaigns: Campaign[]
+}
+
+export default function CampaignList({ campaigns }: CampaignListProps) {
   if (campaigns.length === 0) {
     return <p>No campaigns yet — create one below.</p>
   }
