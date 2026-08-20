@@ -18,7 +18,7 @@ var (defaults to `http://127.0.0.1:3000`).
 
 ## Structure
 
-- `src/api.js` — the only place that talks to the Rails API; every request attaches the
+- `src/api.ts` — the only place that talks to the Rails API; every request attaches the
   advertiser's Bearer token (stored in `localStorage` after login/signup)
-- `src/components/AuthForm.jsx` — combined login/signup form
-- `src/components/CampaignList.jsx`, `CampaignForm.jsx` — campaign table and creation form
+- `src/components/AuthForm.tsx` — combined login/signup form
+- `src/components/CampaignList.tsx`, `CampaignForm.tsx` — campaign table and creation form
