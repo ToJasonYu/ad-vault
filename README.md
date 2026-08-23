@@ -1,6 +1,6 @@
 # ad-vault
 
-ad-vault is a multi-service ad-recommendation platform built as a portfolio project. It
+Ad-vault is a multi-service ad-recommendation platform. It
 demonstrates an end-to-end ad-tech architecture spanning real-time bidding, machine-learned
 click-through-rate prediction, an advertiser back office, client-side event logging, and
 container orchestration with Kubernetes. Each service is implemented in a different language
