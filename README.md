@@ -1,4 +1,4 @@
-# ad-vault
+# Ad-vault
 
 Ad-vault is a multi-service ad-recommendation platform. It
 demonstrates an end-to-end ad-tech architecture spanning real-time bidding, machine-learned
